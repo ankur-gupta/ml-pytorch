@@ -38,9 +38,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # You need docker build . -t image_name --progress=plain
-# (frm https://stackoverflow.com/a/67548336/4383754)
+# (from https://stackoverflow.com/a/67548336/4383754)
 RUN echo python3 --version
-# RUN pip3 install --upgrade --user pip
 
 # Create $ML_USER non-interactively and add it to sudo group. See
 # (1) https://stackoverflow.com/questions/25845538/how-to-use-sudo-inside-a-docker-container
