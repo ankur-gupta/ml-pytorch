@@ -93,6 +93,9 @@ COPY vf-install-env.fish /home/${ML_USER}/vf-install-env.fish
 COPY pytorch.requirements.txt /home/${ML_USER}/pytorch.requirements.txt
 RUN fish /home/${ML_USER}/vf-install-env.fish pytorch && rm -rf /home/${ML_USER}/.cache/pip
 
+# Copy fish history for more productivity
+COPY fish_history /home/${ML_USER}/.local/share/fish/fish_history
+
 # Set the working directory as the home directory of $ML_USER
 # Using $HOME would not work and is not a recommended way.
 # See https://stackoverflow.com/questions/57226929/dockerfile-docker-directive-to-switch-home-directory
