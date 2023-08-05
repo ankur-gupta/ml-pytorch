@@ -18,6 +18,7 @@ RUN apt-get update \
     rsync \
     ssh \
     git \
+    git-extras \
     unzip \
     tree \
     colordiff \
