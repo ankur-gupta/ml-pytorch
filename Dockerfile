@@ -88,8 +88,9 @@ COPY fish_prompt.fish /home/${ML_USER}/.config/fish/functions/fish_prompt.fish
 RUN mkdir -p /home/${ML_USER}/.virtualenvs
 
 # Install a pytorch environment using virtualfish
+# We remove pip cache so docker can store the layer for later reuse.
 COPY pytorch.fish /home/${ML_USER}/pytorch.fish
-RUN fish /home/${ML_USER}/pytorch.fish
+RUN fish /home/${ML_USER}/pytorch.fish && rm -rf /home/${ML_USER}/.cache/pip
 
 # Set the working directory as the home directory of $ML_USER
 # Using $HOME would not work and is not a recommended way.
