@@ -19,6 +19,9 @@ RUN apt-get update \
     ssh \
     git \
     git-extras \
+    software-properties-common \
+    openssh-server \
+    nginx \
     unzip \
     tree \
     colordiff \
@@ -26,6 +29,7 @@ RUN apt-get update \
     most \
     mosh \
     nano \
+    curl \
     wget \
     man \
     iputils-ping \
