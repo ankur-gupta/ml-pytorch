@@ -54,7 +54,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Log in to the Container registry
+      - name: Log in to the Github Packages registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: ${{ env.GITHUB_PACKAGES_REGISTRY }}
@@ -82,14 +82,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Extract version
-        id: extract-version
-        run: echo "::set-output name=version::$(echo ${{ steps.meta.outputs.tags }} | cut -d '/' -f 3 | cut -d ':' -f 2)"
+      # - name: Extract version
+      #   id: extract-version
+      #   run: echo "::set-output name=version::$(echo ${{ steps.meta.outputs.tags }} | cut -d '/' -f 3 | cut -d ':' -f 2)"
+      #   run: echo "{version}={value}" >> $GITHUB_OUTPUT
 
       # Set the 'latest' tag and push to GitHub Packages
       - name: Push 'latest' tag to GitHub Packages
         run: |
-          docker tag ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.extract-version.outputs.version }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker tag ${{ steps.meta.outputs.tags }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           docker push ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
       # Build and push Docker image to Docker Hub
