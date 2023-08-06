@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Get repository name
-        id: get_repo_name
+        id: get-repo-name
         run: echo "::set-output name=repository_name::$(echo ${{ github.repository }} | cut -d '/' -f 2)"
 
       # Install the cosign tool except on PR
@@ -82,17 +82,21 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Extract version
+        id: extract-version
+        run: echo "::set-output name=version::$(echo ${{ steps.meta.outputs.tags }} | cut -d '/' -f 3 | cut -d ':' -f 2)"
+
       # Set the 'latest' tag and push to GitHub Packages
-      - name: Push 'latest' tage to GitHub Packages
+      - name: Push 'latest' tag to GitHub Packages
         run: |
-          docker tag ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker tag ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.extract-version.outputs.version }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           docker push ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
       # Build and push Docker image to Docker Hub
       - name: Build and push Docker image to Docker Hub
         run: |
-          docker build -t ${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_USERNAME }}/${{ steps.get_repo_name.outputs.repository_name }}:${{ steps.meta.outputs.tags }} .
-          docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_USERNAME }}/${{ steps.get_repo_name.outputs.repository_name }}:${{ steps.meta.outputs.tags }}
+          docker build -t ${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_USERNAME }}/${{ steps.get-repo-name.outputs.repository_name }}:${{ steps.meta.outputs.tags }} .
+          docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_USERNAME }}/${{ steps.get-repo-name.outputs.repository_name }}:${{ steps.meta.outputs.tags }}
 
       # Sign the resulting Docker image digest.
       # This will only write to the public Rekor transparency log when the Docker
