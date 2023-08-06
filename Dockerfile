@@ -49,6 +49,9 @@ RUN apt-get update \
 # (from https://stackoverflow.com/a/67548336/4383754)
 RUN echo python3 --version
 
+# Start NGINX server
+RUN service nginx start
+
 # Create $ML_USER non-interactively and add it to sudo group. See
 # (1) https://stackoverflow.com/questions/25845538/how-to-use-sudo-inside-a-docker-container
 # (2) https://askubuntu.com/questions/7477/how-can-i-add-a-new-user-as-sudoer-using-the-command-line
@@ -102,6 +105,11 @@ RUN fish /home/${ML_USER}/vf-install-env.fish pytorch && rm -rf /home/${ML_USER}
 
 # Copy fish history for more productivity
 COPY fish_history /home/${ML_USER}/.local/share/fish/fish_history
+
+# Setup SSH
+RUN mkdir -p /home/${ML_USER}/.ssh
+COPY setup-ssh.sh /home/${ML_USER}/setup-ssh.sh
+RUN bash /home/${ML_USER}/setup-ssh.sh
 
 # Set the working directory as the home directory of $ML_USER
 # Using $HOME would not work and is not a recommended way.
