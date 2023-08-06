@@ -32,7 +32,7 @@ jobs:
 
       - name: Get repository name
         id: get-repo-name
-        run: echo "::set-output name=repository_name::$(echo ${{ github.repository }} | cut -d '/' -f 2)"
+        run: echo "repository_name=$(echo ${{ github.repository }} | cut -d '/' -f 2)" >> $GITHUB_OUTPUT
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
@@ -54,12 +54,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Log in to the Github Packages registry
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-        with:
-          registry: ${{ env.GITHUB_PACKAGES_REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Log in to the Github Packages registry
+      #   uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      #   with:
+      #     registry: ${{ env.GITHUB_PACKAGES_REGISTRY }}
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
@@ -82,22 +82,11 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # - name: Extract version
-      #   id: extract-version
-      #   run: echo "::set-output name=version::$(echo ${{ steps.meta.outputs.tags }} | cut -d '/' -f 3 | cut -d ':' -f 2)"
-      #   run: echo "{version}={value}" >> $GITHUB_OUTPUT
-
-      # Set the 'latest' tag and push to GitHub Packages
-      # - name: Push 'latest' tag to GitHub Packages
-      #   run: |
-      #     docker tag ${{ steps.meta.outputs.tags }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-      #     docker push ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-
       # Build and push Docker image to Docker Hub
       - name: Build and push Docker image to Docker Hub
         run: |
-          docker build -t ${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_USERNAME }}/${{ steps.get-repo-name.outputs.repository_name }}:${{ steps.meta.outputs.tags }} .
-          docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_USERNAME }}/${{ steps.get-repo-name.outputs.repository_name }}:${{ steps.meta.outputs.tags }}
+          docker build -t ${{ env.DOCKERHUB_REGISTRY }}/${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.get-repo-name.outputs.repository_name }}:latest .
+          docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.get-repo-name.outputs.repository_name }}:latest
 
       # Sign the resulting Docker image digest.
       # This will only write to the public Rekor transparency log when the Docker
