@@ -84,11 +84,12 @@ jobs:
 
       # Set the 'latest' tag and push to GitHub Packages
       - name: Push 'latest' tag to GitHub Packages
+        id: add-latest-tag
         run: |
           echo ${{ steps.meta.outputs.tags }} | tr -s ' ' '\n' | grep -e '^v[0-9]\+\.[0-9]\+\.[0-9]\+$' > versions.txt
           LATEST_TAG=$(cat versions.txt | sort -rV | head -n1)
           echo "::set-output name=latest_tag::${LATEST_TAG}"
-          docker tag ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.latest-tag.outputs.latest_tag }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker tag ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.add-latest-tag.outputs.latest_tag }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           docker push ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
       # Build and push Docker image to Docker Hub
