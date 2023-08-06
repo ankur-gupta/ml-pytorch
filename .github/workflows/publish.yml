@@ -88,10 +88,10 @@ jobs:
       #   run: echo "{version}={value}" >> $GITHUB_OUTPUT
 
       # Set the 'latest' tag and push to GitHub Packages
-      - name: Push 'latest' tag to GitHub Packages
-        run: |
-          docker tag ${{ steps.meta.outputs.tags }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          docker push ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      # - name: Push 'latest' tag to GitHub Packages
+      #   run: |
+      #     docker tag ${{ steps.meta.outputs.tags }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      #     docker push ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
       # Build and push Docker image to Docker Hub
       - name: Build and push Docker image to Docker Hub
