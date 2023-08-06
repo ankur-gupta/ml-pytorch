@@ -47,12 +47,15 @@ jobs:
 
       # Login against the DockerHub registry
       # https://github.com/docker/login-action
-      - name: Log into Docker Hub registry
+      - name: Log into DockerHub registry
         uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
         with:
           registry: ${{ env.DOCKERHUB_REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Log into GitHub Packages
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
