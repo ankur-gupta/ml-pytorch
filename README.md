@@ -25,7 +25,7 @@ vf activate pytorch
 ipython
 # Run your python code
 # Exit ipython
-# vf deactivate
+vf deactivate
 ```
 
 ### User
