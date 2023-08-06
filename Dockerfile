@@ -1,4 +1,4 @@
-FROM ubuntu:mantic
+FROM nvidia/cuda:12.2.0-devel-ubuntu22.04
 
 # This is the user that will execute most of the commands within the docker container.
 ARG ML_USER="neo"
@@ -6,6 +6,9 @@ ARG ML_USER_PASSWORD="agentsmith"
 
 # Install the things that need root access first.
 USER root
+
+# To prevent interactive questions during `apt-get install`
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Create workspace directory
 RUN mkdir /workspace
