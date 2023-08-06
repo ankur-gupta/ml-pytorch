@@ -30,6 +30,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Get repository name
+        id: get_repo_name
+        run: echo "::set-output name=repository_name::$(echo ${{ github.repository }} | cut -d '/' -f 2)"
+
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
@@ -83,8 +87,8 @@ jobs:
       # Build and push Docker image to Docker Hub
       - name: Build and push Docker image to Docker Hub
         run: |
-          docker build -t ${{ env.DOCKERHUB_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} .
-          docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+          docker build -t ${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_USERNAME }}/${{ steps.get_repo_name.outputs.repository_name }}:${{ steps.meta.outputs.tags }} .
+          docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_USERNAME }}/${{ steps.get_repo_name.outputs.repository_name }}:${{ steps.meta.outputs.tags }}
 
       # Sign the resulting Docker image digest.
       # This will only write to the public Rekor transparency log when the Docker
