@@ -43,7 +43,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build the image
-        run: docker buildx build . --file Dockerfile --tag ${{ github.event.repository.name }}:${{ github.sha }}
+        run: docker buildx build --push . --file Dockerfile --tag ${{ github.event.repository.name }}:${{ github.sha }}
 
       - name: Run the image
         run: docker run ${{ github.event.repository.name }}:${{ github.sha }} pwd
