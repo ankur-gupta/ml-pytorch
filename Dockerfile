@@ -66,7 +66,6 @@ RUN mkdir -p /home/${ML_USER}/.git/templates
 RUN mkdir -p /home/${ML_USER}/.config/fish/functions
 RUN mkdir -p /home/${ML_USER}/.config/fish/conf.d
 COPY config.fish /home/${ML_USER}/.config/fish/config.fish
-# RUN sudo chown ${ML_USER}:${ML_USER} /home/${ML_USER}/.config/fish/config.fish
 
 # Copy fish history for more productivity
 COPY fish_history /home/${ML_USER}/.local/share/fish/fish_history
@@ -82,7 +81,6 @@ ENV PATH=/home/${ML_USER}/toolbox/bin:$PATH:/home/${ML_USER}/.local/bin
 # Setup SSH
 RUN mkdir -p /home/${ML_USER}/.ssh
 COPY setup-ssh.sh /home/${ML_USER}/setup-ssh.sh
-# RUN sudo chown ${ML_USER}:${ML_USER} /home/${ML_USER}/setup-ssh.sh
 RUN bash /home/${ML_USER}/setup-ssh.sh
 
 # Install vim packages
@@ -95,7 +93,6 @@ RUN echo "Start vim and run :PluginInstall manually"
 RUN rm -rf /home/${ML_USER}/.fishmarks
 RUN git clone http://github.com/techwizrd/fishmarks /home/${ML_USER}/.fishmarks
 COPY .sdirs /home/${ML_USER}/.sdirs
-# RUN sudo chown ${ML_USER}:${ML_USER} /home/${ML_USER}/.sdirs
 
 # Install Fish SSH agent (so you can store your ssh keys)
 # Example usage: ssh-add ~/.ssh/id_rsa_github
