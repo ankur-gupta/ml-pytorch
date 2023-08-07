@@ -45,14 +45,14 @@ jobs:
 
       - name: Push to GitHub Packages registry
         run: |
-          docker tag ${{ github.event.repository.name }}:${{ github.event.release.tag_name }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ github.event.repository.name }}:${{ github.event.release.tag_name }}
-          docker push ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ github.event.repository.name }}:${{ github.event.release.tag_name }}
-          docker tag ${{ github.event.repository.name }}:${{ github.event.release.tag_name }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ github.event.repository.name }}:latest
-          docker push ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ github.event.repository.name }}:latest
+          docker tag ${{ github.event.repository.name }}:${{ github.event.release.tag_name }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ github.repository }}:${{ github.event.release.tag_name }}
+          docker push ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ github.repository }}:${{ github.event.release.tag_name }}
+          docker tag ${{ github.event.repository.name }}:${{ github.event.release.tag_name }} ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ github.repository }}:latest
+          docker push ${{ env.GITHUB_PACKAGES_REGISTRY }}/${{ github.repository }}:latest
 
       - name: Push to DockerHub registry
         run: |
-          docker tag ${{ github.event.repository.name }}:${{ github.event.release.tag_name }} ${{ env.DOCKERHUB_REGISTRY }}/${{ github.event.repository.name }}:${{ github.event.release.tag_name }}
-          docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ github.event.repository.name }}:${{ github.event.release.tag_name }}
-          docker tag ${{ github.event.repository.name }}:${{ github.event.release.tag_name }} ${{ env.DOCKERHUB_REGISTRY }}/${{ github.event.repository.name }}:latest
-          docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ github.event.repository.name }}:latest
+          docker tag ${{ github.event.repository.name }}:${{ github.event.release.tag_name }} ${{ env.DOCKERHUB_REGISTRY }}/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ github.event.release.tag_name }}
+          docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ github.event.release.tag_name }}
+          docker tag ${{ github.event.repository.name }}:${{ github.event.release.tag_name }} ${{ env.DOCKERHUB_REGISTRY }}/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
+          docker push ${{ env.DOCKERHUB_REGISTRY }}/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
