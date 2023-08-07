@@ -1,0 +1,1 @@
+. $HOME/.fishmarks/marks.fish
