@@ -10,9 +10,6 @@ env:
   # Use docker.io for Docker Hub if empty
   GITHUB_PACKAGES_REGISTRY: ghcr.io
   DOCKERHUB_REGISTRY: docker.io
-  IMAGE_NAME: ${{ github.repository }}  # github.repository as <account>/<repo>
-
-# run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
 jobs:
   build:
@@ -45,6 +42,6 @@ jobs:
         run: docker build . --file Dockerfile --tag ${{ github.event.repository.name }}:${{ github.sha }}
 
       - name: Run the image
-        run: docker run ${{ github.repository_name }}:${{ github.sha }} pwd
+        run: docker run ${{ github.event.repository.name }}:${{ github.sha }} pwd
 
         
