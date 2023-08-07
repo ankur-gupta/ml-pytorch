@@ -60,7 +60,10 @@ RUN useradd -m ${ML_USER} \
     && echo ${ML_USER}:${ML_USER_PASSWORD} | chpasswd
 RUN usermod -s `which fish` ${ML_USER}
 
-# We will setup environment variables and python packages for the ML_USER instead of `root`.
+# We want to allow public key SSH authentication only
+COPY sshd_config /etc/ssh/sshd_config
+
+# Copy into the ML_USER's home folder and we will later run chown
 RUN mkdir -p /home/${ML_USER}/toolbox/bin
 RUN mkdir -p /home/${ML_USER}/.git/templates
 RUN mkdir -p /home/${ML_USER}/.config/fish/functions
@@ -78,10 +81,8 @@ COPY fish_history /home/${ML_USER}/.local/share/fish/fish_history
 # users as mentioned in https://stackoverflow.com/questions/32574429/dockerfile-create-env-variable-that-a-user-can-see
 ENV PATH=/home/${ML_USER}/toolbox/bin:$PATH:/home/${ML_USER}/.local/bin
 
-# Setup SSH
+# Create .ssh folder to keep authorized_keys later on
 RUN mkdir -p /home/${ML_USER}/.ssh
-COPY setup-ssh.sh /home/${ML_USER}/setup-ssh.sh
-RUN bash /home/${ML_USER}/setup-ssh.sh
 
 # Install vim packages
 RUN rm -rf /home/${ML_USER}/.vim/bundle/Vundle.vim
@@ -106,6 +107,10 @@ RUN ls /home/${ML_USER}/.fish-ssh-agent/conf.d/*.fish | xargs -I{} ln -s {} /hom
 COPY vf-install-env.fish /home/${ML_USER}/vf-install-env.fish
 COPY pytorch.requirements.txt /home/${ML_USER}/pytorch.requirements.txt
 COPY fish_prompt.fish /home/${ML_USER}/.config/fish/functions/fish_prompt.fish
+
+# Expose ports for Jupyter and SSH
+EXPOSE 8888
+EXPOSE 22
 
 # Now, switch to our user
 RUN sudo chown -R ${ML_USER}:${ML_USER} /home/${ML_USER}
