@@ -113,7 +113,7 @@ USER ${ML_USER}
 
 # We remove pip cache so docker can store the layer for later reuse.
 # Install a pytorch environment using virtualfish
-RUN pipx install virtualfish
+RUN pipx install virtualfish --pip-args="--no-cache-dir"
 RUN vf install
 RUN mkdir -p /home/${ML_USER}/.virtualenvs
 RUN fish /home/${ML_USER}/vf-install-env.fish pytorch && rm -rf /home/${ML_USER}/.cache/pip
