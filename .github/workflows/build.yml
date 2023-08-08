@@ -9,13 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      # Virtualization tool to run/test for different architectures
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
 
       # https://depot.dev/blog/docker-layer-caching-in-github-actions
       - name: Set up Docker Buildx
@@ -25,8 +26,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: false
-          load: true  # Needed for testing
+          push: true
+          # load: true  # Needed for testing
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ github.event.repository.name }}:test
