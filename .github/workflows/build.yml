@@ -33,7 +33,7 @@ jobs:
         with:
           context: .
           push: false
-          # load: true  # Needed for testing
+          load: true  # Needed for testing
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ github.event.repository.name }}:test
