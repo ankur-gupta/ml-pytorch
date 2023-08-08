@@ -34,7 +34,10 @@ RUN apt-get update \
     nano \
     curl \
     wget \
+    tmux \
+    vim \
     man \
+    man-db \
     iputils-ping \
     python3-pip \
     python3-venv \
@@ -71,6 +74,7 @@ RUN mkdir -p /home/${ML_USER}/.config/fish/conf.d
 COPY config.fish /home/${ML_USER}/.config/fish/config.fish
 
 # Copy fish history for more productivity
+RUN mkdir -p /home/${ML_USER}/.local/share/fish
 COPY fish_history /home/${ML_USER}/.local/share/fish/fish_history
 
 # Augment path so we can call ipython and jupyter
@@ -88,6 +92,7 @@ RUN mkdir -p /home/${ML_USER}/.ssh
 RUN rm -rf /home/${ML_USER}/.vim/bundle/Vundle.vim
 RUN mkdir -p /home/${ML_USER}/.vim/bundle
 RUN git clone https://github.com/VundleVim/Vundle.vim.git /home/${ML_USER}/.vim/bundle/Vundle.vim
+COPY .vimrc /home/${ML_USER}/.vimrc
 RUN echo "Start vim and run :PluginInstall manually"
 
 # Install fishmarks (this creates the .sdirs)
