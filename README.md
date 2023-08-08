@@ -61,7 +61,7 @@ docker run -it ghcr.io/ankur-gupta/ml-pytorch /usr/bin/fish
 ```
 
 ### Build it yourself
-Alternatively, you cna clone the repository and build it yourself. It will take ~10 minutes to build the first time.
+Alternatively, you can clone the repository and build it yourself. It will take ~10 minutes to build the first time.
 ```shell
 # Clone the repository
 git clone git@github.com:ankur-gupta/ml-pytorch.git
