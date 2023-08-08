@@ -21,15 +21,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Use the docker cache
+      - name: Build using cache
         uses: docker/build-push-action@v4
         with:
           context: .
           push: false
-          tags: ${{ github.event.repository.name }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Build the image
-        run: docker build . --file Dockerfile --tag ${{ github.event.repository.name }}:${{ github.sha }}
+        run: docker build . --tag ${{ github.event.repository.name }}:${{ github.sha }}
 
       - name: Run the image
         run: docker run ${{ github.event.repository.name }}:${{ github.sha }} pwd
