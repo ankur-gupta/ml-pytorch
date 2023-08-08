@@ -21,7 +21,7 @@ This image has the following installed
 
 Use `pytorch` virtualenv as follows
 ```shell
-# You should be in the (deafult) fish shell (not bash)
+# You should be in the (default) fish shell (not bash)
 vf activate pytorch
 ipython
 # Run your python code
