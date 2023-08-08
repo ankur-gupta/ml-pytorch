@@ -30,9 +30,9 @@ jobs:
           # load: true  # Needed for testing
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: ${{ github.event.repository.name }}:test
+          tags: ${{ github.actor }}/${{ github.event.repository.name }}:test
 
       - name: Run the image
         run: |
           docker images
-          docker run --rm ${{ github.event.repository.name }}:test pwd
+          docker run --rm ${{ github.actor }}/${{ github.event.repository.name }}:test pwd
