@@ -113,7 +113,7 @@ EXPOSE 8888
 EXPOSE 22
 
 # Now, switch to our user
-RUN sudo chown -R ${ML_USER}:${ML_USER} /home/${ML_USER}
+RUN chown -R ${ML_USER}:${ML_USER} /home/${ML_USER}
 USER ${ML_USER}
 
 # We remove pip cache so docker can store the layer for later reuse.
