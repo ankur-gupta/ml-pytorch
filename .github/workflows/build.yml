@@ -27,7 +27,7 @@ jobs:
             ${{ github.event.repository.name }}
           # generate Docker tags based on the following events/attributes
           tags: |
-            type=sha
+            type=sha,prefix=,suffix=,format=long,enable=true,priority=100
 
       # https://depot.dev/blog/docker-layer-caching-in-github-actions
       - name: Set up Docker Buildx
