@@ -1,6 +1,7 @@
 # Docker Image for ML with PyTorch
 
 [![Static Badge](https://img.shields.io/badge/Homepage-GitHub-blue)](https://github.com/ankur-gupta/ml-pytorch/)
+[![Static Badge](https://img.shields.io/badge/Image-DockerHub-cyan)](https://hub.docker.com/repository/docker/ankurio/ml-pytorch/general)
 [![GitHub](https://img.shields.io/github/license/ankur-gupta/ml-pytorch)](https://github.com/ankur-gupta/ml-pytorch/blob/main/LICENSE)
 
 ## Features
