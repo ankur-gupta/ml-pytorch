@@ -6,10 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  # Use docker.io for Docker Hub if empty
-  GITHUB_PACKAGES_REGISTRY: ghcr.io
-  DOCKERHUB_REGISTRY: docker.io
+# env:
+#   # Use docker.io for Docker Hub if empty
+#   GITHUB_PACKAGES_REGISTRY: ghcr.io
+#   DOCKERHUB_REGISTRY: docker.io
 
 jobs:
   build:
