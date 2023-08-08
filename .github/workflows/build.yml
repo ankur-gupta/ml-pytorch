@@ -28,9 +28,10 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          tags: ${{ github.event.repository.name }}:${{ github.sha }}
 
-      - name: Build the image
-        run: docker build . --tag ${{ github.event.repository.name }}:${{ github.sha }}
+      # - name: Build the image
+      #   run: docker build . --tag ${{ github.event.repository.name }}:${{ github.sha }}
 
       - name: Run the image
-        run: docker run ${{ github.event.repository.name }}:${{ github.sha }} pwd
+        run: docker run --rm ${{ github.event.repository.name }}:${{ github.sha }} pwd
