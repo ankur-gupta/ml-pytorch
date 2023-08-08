@@ -4,6 +4,22 @@
 [![Static Badge](https://img.shields.io/badge/Image-DockerHub-cyan)](https://hub.docker.com/repository/docker/ankurio/ml-pytorch/general)
 [![GitHub](https://img.shields.io/github/license/ankur-gupta/ml-pytorch)](https://github.com/ankur-gupta/ml-pytorch/blob/main/LICENSE)
 
+## Use cases
+You should use this image if you
+* need to run PyTorch on an Nvidia CUDA 11.8.0 GPU device
+* want to use fish shell
+* don't want to re-install a virtualenv everytime
+* want to run large ML training job on a remote server via SSH
+* want to deploy a base image to a cloud computing provider (eg: runpod.io)
+
+You shouldn't use this image
+* if you want to run PyTorch on Apple Silicon
+* in an otherwise unsecured environment (because it adds a `sudo`-privileged user with plaintext password)
+* if you want to use bash shell
+* if you want to run jupyter notebook
+* if you need a pinned python virtualenv
+
+
 ## Features
 ### `Dockerfile`
 This image has the following installed
