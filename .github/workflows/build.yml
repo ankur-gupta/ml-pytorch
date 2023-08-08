@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  TEST_TAG: ankur-gupta/my-pytorch:test
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,9 +36,9 @@ jobs:
           load: true  # Needed for testing
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: ${{ env.TEST_TAG }}
+          tags: ${{ github.event.repository.name }}:test
 
       - name: Run the image
         run: |
           docker images
-          docker run --rm ${{ env.TEST_TAG }} pwd
+          docker run --rm docker.io/library/${{ github.event.repository.name }}:test pwd
