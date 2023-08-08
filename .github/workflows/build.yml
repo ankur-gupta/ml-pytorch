@@ -22,21 +22,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
   
-      # Login against the DockerHub registry (https://github.com/docker/login-action)
-      - name: Log into DockerHub registry
-        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-        with:
-          registry: ${{ env.DOCKERHUB_REGISTRY }}
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      # # Login against the DockerHub registry (https://github.com/docker/login-action)
+      # - name: Log into DockerHub registry
+      #   uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+      #   with:
+      #     registry: ${{ env.DOCKERHUB_REGISTRY }}
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # From https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#publishing-a-package-using-an-action
-      - name: Log in to the Github Packages registry
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-        with:
-          registry: ${{ env.GITHUB_PACKAGES_REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      # # From https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#publishing-a-package-using-an-action
+      # - name: Log in to the Github Packages registry
+      #   uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      #   with:
+      #     registry: ${{ env.GITHUB_PACKAGES_REGISTRY }}
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build the image
         run: docker build . --file Dockerfile --tag ${{ github.event.repository.name }}:${{ github.sha }}
