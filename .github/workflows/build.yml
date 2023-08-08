@@ -26,6 +26,8 @@ jobs:
       # https://depot.dev/blog/docker-layer-caching-in-github-actions
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+        with:
+          driver-opts: network=host
 
       - name: Build using cache
         uses: docker/build-push-action@v4
