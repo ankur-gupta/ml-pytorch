@@ -121,3 +121,45 @@ docker rm $(docker ps -a -q)
 # Delete all images
 docker rmi $(docker images -q)
 ```
+
+### No space left on device
+If you encounter this type of error,
+```
+ERROR: failed to solve: failed to register layer: write /usr/local/cuda-11.8/targets/sbsa-linux/lib/libcublasLt_static.a: no space left on device
+```
+it means that you may need to free disk space. You can do it using these commands.
+
+```shell
+docker system prune -a  # this will delete the cache
+# WARNING! This will remove:
+#   - all stopped containers
+#   - all networks not used by at least one container
+#   - all images without at least one container associated to them
+#   - all build cache
+
+# Are you sure you want to continue? [y/N] y
+# Deleted build cache objects:
+# kukqetqe618pmdgf5vz1npyn6
+# ...
+# gdculirrh0mr1g2x2qa7llunk
+# Total reclaimed space: 21.19GB
+
+docker volume prune
+# WARNING! This will remove anonymous local volumes not used by at least one container.
+# Are you sure you want to continue? [y/N] y
+# Total reclaimed space: 0B
+
+docker network prune
+# WARNING! This will remove all custom networks not used by at least one container.
+# Are you sure you want to continue? [y/N] y
+```
+
+You can check docker's space usage like this
+```shell
+docker system df
+# TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+# Images          2         1         7.192GB   7.192GB (100%)
+# Containers      1         0         1.621kB   1.621kB (100%)
+# Local Volumes   0         0         0B        0B
+# Build Cache     88        3         11.83kB   10.54kB
+```
