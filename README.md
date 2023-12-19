@@ -1,3 +1,5 @@
+# [Archived] See https://github.com/ankur-gupta/docker-ml-base instead 
+
 # Docker Image for ML with PyTorch
 
 [![Static Badge](https://img.shields.io/badge/Homepage-GitHub-blue)](https://github.com/ankur-gupta/ml-pytorch/)
